@@ -1,0 +1,208 @@
+package Final_project;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.swing.Action;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class Fashion {
+  @Test
+  public void fas() throws InterruptedException 
+  {
+	  //INITIALIZING BROWSER AND OPENING SITE
+	  System.setProperty("webdriver.chrome.driver", "C:\\SeleniumWebDriver\\Chromedriver\\chromedriver.exe");
+	  WebDriver driver = new ChromeDriver();
+	  driver.get("https://www.flipkart.com/");
+	  System.out.println("Broser launched and site opened");
+	  
+	  //LOGIN
+	  driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div/form/div[1]/input")).sendKeys("9940588616");
+	  System.out.println("Username done");
+	  driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div/form/div[2]/input")).sendKeys("Vaishu@99");
+	  System.out.println("Password done");
+	  driver.findElement(By.xpath("/html/body/div[2]/div/div/div/div/div[2]/div/form/div[4]/button/span")).click();
+	  System.out.println("Successfully Logged In");
+	  
+	  //TITLE CHECK
+	  String ActualTitle ="Online Shopping Site for Mobiles, Electronics, Furniture, Grocery, Lifestyle, Books & More. Best Offers!";
+	  String ExpectedTitle = driver.getTitle();
+	  Assert.assertEquals(ActualTitle, ExpectedTitle);
+	  System.out.println("Title checked");
+	  
+	  //ICON CHECK
+	  WebElement Icon = driver.findElement(By.xpath("//body/div[@id='container']/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/a[1]/img[1]"));
+	  Assert.assertEquals(true, Icon.isDisplayed());
+	  System.out.println("Icon Displayed");
+	 
+      //SEARCHING IN TEXT BOX
+	  WebElement search = driver.findElement(By.name("q"));
+	  search.sendKeys("Womens Heels");
+	  search.sendKeys(Keys.ENTER);
+	  System.out.println("Women Heels");
+	  
+	  //TO HANDLE MULTIPLE WINDOW
+	  String Mainwindow = driver.getWindowHandle();
+	  Set<String> s1 = driver.getWindowHandles();
+	  Iterator<String> i1 = s1.iterator();
+	  while(i1.hasNext())
+	  {
+		  String childwindow = i1.next();
+		  if(!Mainwindow.equalsIgnoreCase(childwindow))
+		  {
+			  driver.switchTo().window(childwindow);
+		  }
+		  System.out.println("Handling multiple window");
+	  }
+	  driver.manage().window().maximize();
+	  System.out.println("Maximizing Window");
+	  
+	  //SCROLL DOWN
+	  JavascriptExecutor js= (JavascriptExecutor)driver;
+	  js.executeScript("window.scrollBy(0,400)");
+	  System.out.println("ScrollDown done");
+	  
+	  //SCROLL UP
+	  JavascriptExecutor js1 = (JavascriptExecutor)driver;
+	  js1.executeScript("window.scrollBy(0,-20)");
+	  System.out.println("ScrollUp Done");
+	  
+	  //FILTERING DONE THROUGH CHECKBOX
+	  WebElement brand = driver.findElement(By.xpath("//div[contains(text(),'Brand')]"));
+	  Actions act = new Actions(driver);
+	  brand.click();
+	  System.out.println("Mouse over Brand Webelement");
+	  
+	  //SELECT THE BRAND
+	  WebElement brandselect = driver.findElement(By.xpath("//body/div[@id='container']/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/section[5]/div[2]/div[1]/div[6]/div[1]/label[1]/div[1]"));
+	  brandselect.click();
+	  System.out.println("brand is selected");
+	  
+	  //DISCOUNT RANGE SELECTED
+	  JavascriptExecutor js2= (JavascriptExecutor)driver;
+	  js2.executeScript("window.scrollBy(0,400)");
+	  System.out.println("ScrollDown done");
+	  WebElement discount = driver.findElement(By.xpath("//div[contains(text(),'Discount')]"));
+	  discount.click();
+	  System.out.println("Mouse over discount done");
+	  WebElement discount_range = driver.findElement(By.xpath("//body/div[@id='container']/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/section[8]/div[2]/div[1]/div[6]/div[1]/label[1]/div[1]"));
+	  discount_range.click();
+	  Thread.sleep(4000);
+	  System.out.println("Discount range is done");
+	  
+	  //SELECTING BRAND
+	  WebElement product = driver.findElement(By.xpath("//body/div[@id='container']/div[1]/div[3]/div[1]/div[2]/div[4]/div[1]/div[3]/div[1]/a[1]/div[1]/div[1]/div[1]/div[1]/img[1]"));
+	  Thread.sleep(4000);
+	  product.click();
+	  System.out.println("Product Selected");
+	  
+	  //TO HANDLE MULTIPLE WINDOW
+	  String Mainwindow1 = driver.getWindowHandle();
+	  Set<String> s2 = driver.getWindowHandles();
+	  Iterator<String> i2 = s2.iterator();
+	  while(i2.hasNext())
+	  {
+		  String childwindow1 = i2.next();
+		  if(!Mainwindow1.equalsIgnoreCase(childwindow1))
+		  {
+			  driver.switchTo().window(childwindow1);
+		  }
+		  System.out.println("Handling multiple window");
+	  }
+	  
+      //CHECKING CUSTOMER REVIEW
+	  JavascriptExecutor js4= (JavascriptExecutor)driver;
+	  js4.executeScript("window.scrollBy(0,1000)");
+	  System.out.println("ScrollDown done to see Review");
+	  
+	  //SELECTING SIZE
+	  WebElement size1= driver.findElement(By.xpath("//*[@id=\"swatch-3-size\"]/a"));
+	  act.contextClick(size1);
+	  System.out.println("Selected size");
+	  
+      //ADDING TO CART
+	  WebElement cart = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[3]/div[1]/div[1]/div[2]/div/ul/li[1]/button"));
+	  cart.click();
+	  System.out.println("Added to cart");
+	  
+	  //MOUSE OVER THE WEBELEMENT
+	  WebElement electronic = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/span[1]"));
+	  act.moveToElement(electronic).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over Electronics");
+	  WebElement Application = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/span[2]"));
+	  act.moveToElement(Application).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over Application & TV");
+	  WebElement Men = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/span[3]"));
+	  act.moveToElement(Men).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over Men");
+	  WebElement women = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/span[4]"));
+	  act.moveToElement(women).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over Women");
+	  WebElement Baby_Kids = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/span[5]"));
+	  act.moveToElement(Baby_Kids).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over Baby and Kids");
+	  WebElement Home_and_Furniture = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/span[6]"));
+	  act.moveToElement(Home_and_Furniture).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over home and furniture");
+	  WebElement sports = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/span[7]"));
+	  act.moveToElement(sports).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over Sport,Book and More");
+	  WebElement flights = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/a[1]"));
+	  act.moveToElement(flights).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over flights");
+	  WebElement offer = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div/div/a[2]"));
+	  act.moveToElement(offer).build().perform();
+	  Thread.sleep(2000);
+	  System.out.println("Mouse over Offers");
+	  
+      //CHECK THE CART
+	  WebElement date = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[1]/div[1]/div[2]/div[5]/div/div/a/span"));
+	  act.moveToElement(date).build().perform();
+	  date.click();
+	  System.out.println("Checking the cart");
+	  
+	  //WISHLIST
+	  WebElement myaccount = driver.findElement(By.xpath("//body/div[@id='container']/div[1]/div[1]/div[1]/div[2]/div[3]/div[1]"));
+	  myaccount.click();
+	  System.out.println("Mouse over Myaccount done");
+	  WebElement wishlist = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[1]/div[1]/div[2]/div[3]/div/div/div[2]/div[2]/div/ul/li[5]/a/div[2]"));
+	  act.moveToElement(wishlist).build().perform();
+	  wishlist.click();
+	  System.out.println("Checking Wishlist");
+	  
+	  //LOG OUT
+	  WebElement account= driver.findElement(By.xpath("//body/div[@id='container']/div[1]/div[1]/div[1]/div[2]/div[3]/div[1]"));
+	  account.click();
+	  System.out.println("Mouse over Myaccount done");
+	  WebElement logout = driver.findElement(By.xpath("//body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]"));
+	  logout.click();
+	  System.out.println("Successfully Logout");
+	  
+	  //CLOSE THE BROWSER
+	  driver.close();
+	  System.out.println("Closing the browser");
+	  
+	  //QUIT THE BROWSER
+	  driver.quit();
+	  System.out.println("Quit the browser");
+	}
+}
